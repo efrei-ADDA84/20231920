@@ -2,7 +2,7 @@ FROM python:3.11.9-slim
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt .
+COPY ./TP3/requirements.txt .
 
 COPY ./TP3/api/app.py .
 
