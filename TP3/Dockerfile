@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY requirements.txt .
 
-COPY api/app.py .
+COPY ./TP3/api/app.py .
 
 EXPOSE 8081
 
