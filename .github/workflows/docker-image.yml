@@ -1,23 +1,62 @@
+name: Build And Deploy to Azure
 
-name: CI/CD Pipeline
-on:
-  push:
-    branches: [ TP2 ]
+on: 
+  push: 
+    branches: 
+      - TP3 
 
-jobs:
-  build-and-push:
+jobs: 
+  build-and-push: 
+    runs-on: ubuntu-latest 
     
-    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Azure Container Registry 
+        uses: docker/login-action@v1
+        with: 
+          registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push Docker image to Azure Container Registry
+        uses: docker/build-push-action@v2
+        with: 
+          context: . 
+          file: ./TP2/Dockerfile
+          push: true 
+          tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/20231920/weatherapp:latest
+        env: 
+          API_KEY: ${{ secrets.API_KEY }}
+
+      - name: Run Hadolint 
+        uses: hadolint/hadolint-action@v1.6.0
+        with:
+          dockerfile: ./TP2/Dockerfile
+
+  deploy:
+    needs: build-and-push 
+    runs-on: ubuntu-latest 
     
-    steps:
-    
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build ./TP2  -t ramijuice/weatherapp2:latest
-    - name: Log in to DockerHub
-      uses: docker/login-action@v1 
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    - name: Push to DockerHub
-      run: docker push ramijuice/weatherapp2:latest
+    steps: 
+      - name: Login via Azure CLI
+        uses: azure/login@v1
+        with: 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Container Instance
+        uses: azure/aci-deploy@v1
+        with: 
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: devops-20231920 
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/20231920/weatherapp:latest 
+          name: weatherapp-20231920
+          location: 'francecentral'
+          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }} 
+          registry-username: ${{ secrets.REGISTRY_USERNAME }} 
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }} 
+          secure-environment-variables: API_KEY=${{ secrets.API_KEY }}
+          ports: 8081
