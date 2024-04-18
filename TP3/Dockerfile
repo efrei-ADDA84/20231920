@@ -2,9 +2,10 @@ FROM python:3.11.9-slim
 
 WORKDIR /usr/src/app
 
-COPY ./TP3/requirements.txt .
+COPY requirements.txt .
 
-COPY ./TP3/api/app.py .
+COPY api/app.py .
+
 
 EXPOSE 8081
 
