@@ -20,7 +20,7 @@ l'ip n'est pas dans les variables d'env par défaut (je n'ai pas réussi a le fa
 
 ## Problèmes encontrés
 
-le principal problème était (pour une raison) le fichier generé "id_rsa" était mal encodé (j'ai du destroy, et spécifier que je devais le génerer en ascii) 
+le principal problème était (pour une raison) le fichier generé "id_rsa" était mal encodé (j'ai du destroy, et spécifier que je devais le génerer en ascii grace à cette commande `terraform output -raw private_key | Out-File -FilePath .\id_rsa -Encoding ascii`)
 avant de destroy puis re apply.
 
 depuis je n'ai pas eu ce problème.
