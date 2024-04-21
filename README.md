@@ -1,4 +1,6 @@
-# Terraform
+#TP4
+
+## Terraform
 
 En soit tout peut-être fait depuis le fichier main.tf, j'ai fait 4 fichiers pour mieux gérer les variables et les outputs que mon fichier me fait, en plus des options pour azure.
 
