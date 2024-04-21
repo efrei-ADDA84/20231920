@@ -1,3 +1,19 @@
+# Ignore files and directories containing 'TP2'
 *TP2*
+**/*TP2*/
+**/*TP2*/*
+
+# Ignore files and directories containing 'TP3'
 *TP3*
-*TP4.pdf
+**/*TP3*/
+**/*TP3*/*
+
+# Ignore files and directories containing 'api' (case-sensitive)
+*api*
+**/*api*/
+**/*api*/*
+
+# If you want 'api' to be case-insensitive (ignore 'API', 'Api', etc.)
+*[aA][pP][iI]*
+**/*[aA][pP][iI]*/
+**/*[aA][pP][iI]*/* 
