@@ -1,5 +1,5 @@
 variable "azure_subscription_id" {
-  default = "ab108b80-104a-443a-ac5f-6b896aa16313"
+  default = "765266c6-9a23-4638-af32-dd1e32613047"
 }
 variable "user_admin" {
   default = "devops"
