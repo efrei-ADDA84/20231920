@@ -15,7 +15,7 @@ jobs:
     - name: Lint Dockerfile
       uses: hadolint/hadolint-action@v3.1.0
       with:
-        dockerfile: dockerfile
+        dockerfile: Dockerfile
         
     - name: Login to DockerHub
       uses: docker/login-action@v3
